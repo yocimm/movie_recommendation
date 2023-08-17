@@ -54,45 +54,37 @@ Data yang digunakan adalah dataset tmdb_5000_movies dari tmdb-movie-metadata yan
 
 **Univariate EDA**
 1. Jumlah bahasa asli di film
-   ![gambar](https://github.com/yocimm/air_pollution_classification/blob/main/gambar/jml_per_kat.png?raw=true)
+   ![gambar](https://github.com/yocimm/movie_recommendation/blob/main/language_image.png?raw=true)
 
-   >Terdapat 5 kategori yaitu sedang, baik, tidak sehat, sangat tidak sehat, dan tidak ada data. Kategori 'tidak ada data' akan dihapus, dan karena jumlah data dengan kategori sangat tidak sehat hanya 3, maka pada klasifikasi ini hanya akan       digunakan tiga kategori saja yaitu sedang, baik, dan tidak sehat.
+   >Dari 4803 data, sebanyak 4505 film menggunakan Bahasa Inggris.
 
-3. Pesebaran kelas di 5 stasiun:
+2. Genre Film:
    ![gambar](https://github.com/yocimm/air_pollution_classification/blob/main/gambar/5_stasiun.png?raw=true)
 
-   >Gambar di atas adalah visualisasi dari 5 data berdasarkan stasiun terbanyak. Stasiun Lubang Buaya merupakan daerah    dengan indeks udara tidak sehat terbanyak dan Bunderan HI adalah yang paling sedikit. Sementara itu, seluruh stasiun memiliki kategori sedang yang hampir sama dengan terbanyak adalah stasiun Jagakarsa
+   >Genre film terbanyak pada dataset ini adalah drama, komedi, drama-romance, comedy-romance, dan comedy-drama.
 
-5. Jumlah parameter critical:
+3. Negara Asal Film:
    ![gambar](https://github.com/yocimm/air_pollution_classification/blob/main/gambar/titik_critical.png?raw=true)
-   >Parameter dengan hasil pengukuran tertinggi terbanyak adalah PM25. Menurut Kementerian Lingkungan Hidup dan Kehutanan, parameter PM2,5 merupakan parameter pencemar udara paling berpengaruh terhadap kesehatan manusia.
+   >Dari keseluruhan data, sebanyak 2977 film diproduksi oleh United States of America.
 
+4. Budget, Revenue, dan Durasi Film:
+   ![gambar](?raw-true)
+   >* Budget terbesar untuk pembuatan film pada dataset ini adalah 380 juta dolar
+   >* Penghasilan terbesar dari film sebesar 2.7 miliar dolar
+   >* Durasi film terpanjang yaitu 338 menit
 
 
 ## Data Preparation
-1. Data Cleaning
-
-    - Menghapus data dengan kategori SANGAT TIDAK SEHAT dan TIDAK ADA DATA
-    - Menyeleksi data dengan nilai pm25 non-null karena merupakan parameter pencemar udara paling berpengaruh terhadap kesehatan. Jumlah data awal 3655 menjadi 1749 data,
-    - Melakukan imputasi dengan mean pada missing value fitur 'pm10', 'so2', 'co', 'o3', 'no2', 'pm25'.
-    - Menghapus fitur tanggal untuk melakukan pengecekan data duplikat dan didapatkan 0 duplikasi data.
-
-2. Membagi data sesuai label agar memiliki distribusi yang tidak jauh berbeda. Hasil cleaning didapati data 1328 SEDANG, 149 BAIK, 272 TIDAK SEHAT. Oleh karena itu, digunakan 200 SEDANG, 149 BAIK, dan 200 TIDAK SEHAT.
-
-3. Mengubah data kategorik yaitu stasiun, critical, dan categori menjadi numerik dengan labelencoder.
-   - 'categori': {'BAIK': 0, 'SEDANG': 1, 'TIDAK SEHAT': 2},
-   - 'critical': {'O3': 0, 'PM10': 1, 'PM25': 2, 'SO2': 3},
-   - 'stasiun': {'DKI1 (Bunderan HI)': 0,
-                'DKI2 (Kelapa Gading)': 1,
-                'DKI3 (Jagakarsa)': 2,
-                'DKI4 (Lubang Buaya)': 3,
-                'DKI5 (Kebon Jeruk) Jakarta Barat': 4}
-
-5. Memisahkan kolom fitur dengan kolom target yang disimpan secara berturut-turut pada variable X dan y.
-
-6. Melakkukan normalisasi pada data dengan StandarScaler.
-
-7. Membagi data training dan testing dengan jumlah data testing sebanyak 20% dari keseluruhan data.
+1. Membuat dataframe baru yang berisi 'id', 'title', 'overview'
+2. Cek duplikasi dan missing value namun hasilnya nol
+3. Cleaning text 'overview' :
+   - Mengubah ke huruf kecil
+   - Menghapus URL
+   - Menghapus tanda baca dan angka
+   - Menghapus spasi ekstra
+   - Menghapus stopwords dan stemming 
+4. Pembobotan dengan TF-IDF
+5. Menghitung derajat kesamaan (similarity degree) antar film dengan teknik cosine similarity
 
 ## Modeling
 Pemodelan pada proyek ini menggunakan 2 algoritma machine learning yaitu K-Nearest Neighbor Classifier dan Random Forest Classifier.
