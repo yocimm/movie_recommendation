@@ -58,6 +58,7 @@ df.info()
 * release_date - tanggal rilis.
 * revenue - penghasilan dari film
 * runtime - durasi film
+* spoken_language - bahasa dalam film
 * status - "Released" atau "Rumored".
 * tagline - tagline film
 * title - judul film
@@ -105,8 +106,25 @@ df.describe()
 """
 
 #membuat dataframe baru
-df2 = df[['id', 'title', 'overview']]
+df2 = df[['id', 'title', 'genres']]
 df2.head()
+
+import ast
+
+def extract_names(row):
+    # Mengubah string menjadi list of dictionaries
+    row_list = ast.literal_eval(row)
+
+    # Mengambil nilai "name" dari setiap dictionary dan mengubahnya menjadi lowercase
+    names = [item['name'].lower() for item in row_list]
+
+    # Menggabungkan semua nama dengan "-"
+    return '-'.join(names)
+
+# Menggunakan fungsi apply untuk mengubah kolom
+df2['genres'] = df2['genres'].apply(extract_names)
+
+df2.head(3)
 
 df2['id'].duplicated().sum()
 
@@ -116,38 +134,8 @@ df2.isnull().sum()
 
 """tidak ada missing value
 
-**Data Cleaning**
+**Pembobotan Kata**
 """
-
-# Inisialisasi stemmer dan stopwords
-stemmer = PorterStemmer()
-nltk.download('stopwords')
-stop_words = set(stopwords.words('english'))
-
-def clean_text(text):
-    # Mengubah ke huruf kecil
-    text = text.lower()
-
-    # Menghapus URL
-    text = re.sub(r'http\S+|www\S+|https\S+', '', text, flags=re.MULTILINE)
-
-    # Menghapus tanda baca dan angka
-    text = re.sub(r'\W', ' ', text)
-
-    # Menghapus spasi ekstra
-    text = re.sub(r'\s+', ' ', text).strip()
-
-    # Menghapus stopwords dan stemming
-    text = ' '.join([stemmer.stem(word) for word in text.split() if word not in stop_words])
-
-    return text
-
-df = df.dropna(subset=['overview']) #memastikan tidak ada ada nan
-df2['overview'] = df2['overview'].apply(clean_text) #implemen fungsi clean_text
-
-df2.head(5)
-
-"""**Pembobotan Kata**"""
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 
@@ -155,18 +143,18 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 tf = TfidfVectorizer()
 
 # Melakukan perhitungan idf pada data cuisine
-tf.fit(df['overview'])
+tf.fit(df2['genres'])
 
 # Mapping array dari fitur index integer ke fitur nama
 tf.get_feature_names_out()
 
 # Melakukan fit lalu ditransformasikan ke bentuk matrix
-tfidf_matrix = tf.fit_transform(df['overview'])
+tfidf_matrix = tf.fit_transform(df2['genres'])
 
 # Melihat ukuran matrix tfidf
 tfidf_matrix.shape
 
-"""Nilai 4800 merupakan ukuran data dan 21262 merupakan matrik overview."""
+"""Nilai 4800 merupakan ukuran data dan 22 merupakan matrik  genres."""
 
 # Mengubah vektor tf-idf dalam bentuk matriks dengan fungsi todense()
 tfidf_matrix.todense()
@@ -189,9 +177,12 @@ print('Shape:', cosine_sim_df.shape)
 # Melihat similarity matrix pada setiap film
 cosine_sim_df.sample(5, axis=1).sample(10, axis=0)
 
-"""**Mendapatkan Rekomendasi**"""
+"""Kesamaan terbesar ada pada Twilight dan Herbie Fully Loaded dengan nilai 0.76
 
-def recommendations(title, similarity_data=cosine_sim_df, items=df[['title', 'overview']], k=5):
+**Mendapatkan Rekomendasi**
+"""
+
+def recommendations(title, similarity_data=cosine_sim_df, items=df[['title', 'genres']], k=5):
     # Mengambil data dengan menggunakan argpartition untuk melakukan partisi secara tidak langsung sepanjang sumbu yang diberikan
     # Dataframe diubah menjadi numpy
     # Range(start, stop, step)
@@ -212,3 +203,5 @@ df2[df2.title.eq('The Avengers')]
 
 # Mendapatkan rekomendasi restoran yang mirip dengan KFC
 recommendations('The Avengers')
+
+"""Dari hasil rekomendasi di atas, diketahui bahwa The Avengers termasuk ke dalam kategori science fiction-action-adventure. Dari 5 item yang direkomendasikan, 5 item memiliki kategori yang sama. Artinya, precision sistem sebesar 5/5 atau 100%."""
