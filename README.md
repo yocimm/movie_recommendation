@@ -89,7 +89,7 @@ Pada sistem rekomendasi ini digunakan cosine similarity untuk menghitung derajat
 2. Menghitung Magnitude: Magnitude (atau panjang) dari masing-masing vektor dihitung. Ini adalah akar kuadrat dari jumlah kuadrat dari setiap komponen vektor.
 3. Menghitung Cosine Similarity: Dengan dot product dan magnitude yang telah dihitung, cosine similarity dapat dihitung dengan rumus:
 
-![gambar](https://github.com/yocimm/movie_recommendation/blob/main/perbandingan-cosine.png?raw-true)
+![gambar](https://github.com/yocimm/movie_recommendation/blob/main/rumus-cosine.png?raw-true)
  
 Hasil dari perhitungan ini adalah nilai antara -1 dan 1. Nilai yang mendekati 1 menunjukkan bahwa kedua vektor memiliki arah yang sangat mirip, sehingga mereka sangat serupa. Sebaliknya, nilai yang mendekati -1 menunjukkan bahwa kedua vektor berada dalam arah yang berlawanan, sehingga mereka sangat tidak mirip. Nilai 0 menunjukkan bahwa kedua vektor ortogonal atau tidak memiliki kesamaan.
 
