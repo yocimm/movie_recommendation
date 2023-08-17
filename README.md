@@ -60,12 +60,11 @@ Data yang digunakan adalah dataset tmdb_5000_movies dari tmdb-movie-metadata yan
    >Dari 4803 data, sebanyak 4505 film menggunakan Bahasa Inggris.
 
 2. Genre Film:
-   ![gambar](?raw=true)
 
    >Genre film terbanyak pada dataset ini adalah drama, komedi, drama-romance, comedy-romance, dan comedy-drama.
 
 3. Negara Asal Film:
-   ![gambar](?raw=true)
+  
    >Dari keseluruhan data, sebanyak 2977 film diproduksi oleh United States of America.
 
 4. Budget, Revenue, dan Durasi Film:
@@ -106,6 +105,6 @@ Dapat diketahui kesamaan terbesar ada pada Twilight dan Herbie Fully Loaded deng
 ## Evaluation
 Metrik evaluasi yang digunakan adalah Precision dengan formula :
    
-    >_Precision = #of recommendation that are relevant/#of item we recommend_
+    >Precision = #of recommendation that are relevant/#of item we recommend
 
 Dari hasil rekomendasi di atas, diketahui bahwa The Avengers termasuk ke dalam kategori science fiction-action-adventure. Dari 5 item yang direkomendasikan, 5 item memiliki kategori yang sama. Artinya, precision sistem sebesar 5/5 atau 100%.
