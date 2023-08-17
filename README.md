@@ -69,8 +69,8 @@ Data yang digunakan adalah dataset tmdb_5000_movies dari tmdb-movie-metadata yan
    >Dari keseluruhan data, sebanyak 2977 film diproduksi oleh United States of America.
 
 4. Budget, Revenue, dan Durasi Film:
-   
-   ![gambar](?raw-true)
+   **Statistik data numerik :**
+   ![gambar](https://github.com/yocimm/movie_recommendation/blob/main/df_desc.png?raw-true)
    >* Budget terbesar untuk pembuatan film pada dataset ini adalah 380 juta dolar
    >* Penghasilan terbesar dari film sebesar 2.7 miliar dolar
    >* Durasi film terpanjang yaitu 338 menit
@@ -89,16 +89,23 @@ Pada sistem rekomendasi ini digunakan cosine similarity untuk menghitung derajat
 2. Menghitung Magnitude: Magnitude (atau panjang) dari masing-masing vektor dihitung. Ini adalah akar kuadrat dari jumlah kuadrat dari setiap komponen vektor.
 3. Menghitung Cosine Similarity: Dengan dot product dan magnitude yang telah dihitung, cosine similarity dapat dihitung dengan rumus:
 
-![gambar](?raw-true)
+![gambar](https://github.com/yocimm/movie_recommendation/blob/main/perbandingan-cosine.png?raw-true)
  
 Hasil dari perhitungan ini adalah nilai antara -1 dan 1. Nilai yang mendekati 1 menunjukkan bahwa kedua vektor memiliki arah yang sangat mirip, sehingga mereka sangat serupa. Sebaliknya, nilai yang mendekati -1 menunjukkan bahwa kedua vektor berada dalam arah yang berlawanan, sehingga mereka sangat tidak mirip. Nilai 0 menunjukkan bahwa kedua vektor ortogonal atau tidak memiliki kesamaan.
 
 Dalam konteks sistem rekomendasi, item yang memiliki cosine similarity yang tinggi dengan item yang disukai oleh pengguna akan direkomendasikan, karena mereka dianggap memiliki konten yang serupa atau relevan.
 
 
-## Evaluation
-Metrik evaluasi yang digunakan adalah Precision.
+Matriks similarity dari 10 film sampel:
 
-![gambar](?raw=true)
+![gambar](https://github.com/yocimm/movie_recommendation/blob/main/perbandingan-cosine.png?raw-true)
+
+Dapat diketahui kesamaan terbesar ada pada Twilight dan Herbie Fully Loaded dengan nilai 0.76
+
+
+## Evaluation
+Metrik evaluasi yang digunakan adalah Precision dengan formula :
+   
+    >_Precision = #of recommendation that are relevant/#of item we recommend_
 
 Dari hasil rekomendasi di atas, diketahui bahwa The Avengers termasuk ke dalam kategori science fiction-action-adventure. Dari 5 item yang direkomendasikan, 5 item memiliki kategori yang sama. Artinya, precision sistem sebesar 5/5 atau 100%.
